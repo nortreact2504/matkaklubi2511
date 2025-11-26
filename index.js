@@ -1,11 +1,14 @@
 import express from 'express'
+import {indexCntrl, contactCntrl, hikeCntrl} from './controllers/viewCntrl.js'
 
 const app = express()
 app.use('/', express.static('public'))
 app.set("views","./views");
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => res.send('Töötab!!'))
+app.get('/', indexCntrl)
+app.get('/kontakt', contactCntrl)
+app.get('/matk/:id', hikeCntrl)
 
 const port = process.env.PORT || 8085
 
