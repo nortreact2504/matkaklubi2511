@@ -21,11 +21,21 @@
                 <img class="img-fluid" src="<%= matk.pildiUrl %>" alt="">
             </div>
             <p><%= matk.kirjeldus %></p>
+            <% if (error) {%>
+                <div class="alert alert-danger">
+                        <%= error %>
+                </div>
+            <% }%>
+            <% if (success) {%>
+                <div class="alert alert-success">
+                        <%= success %>
+                </div>
+            <% }%>
             <p><strong>Registreerunuid siiani: </strong><%= matk.osalejad.length %></p>
 
             <h4>Registreeru matkale!</h4>
 
-            <form  class="registreerumine" action="<%=matk.id %>/registreerumine" method="get">
+            <form  class="registreerumine" action="/matk/<%=matk.id %>/registreerumine" method="get">
                 <div class="vali">
                     <label for="nimi">Nimi</label>
                     <input type="text" name="nimi" placeholder="nimi">
