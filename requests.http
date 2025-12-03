@@ -1,0 +1,13 @@
+### Get all hikes
+GET http://localhost:8085/api/matk
+
+
+### Insert one hike
+POST http://localhost:8085/api/matk
+Content-Type: application/json
+
+{
+    "nimi": "Suusamatk Otepääl",
+    "tekst": "Kaunis suusamatk Otepää ümbruses.",
+    "pilt": "https://example.com/suusamatk-otepaa.jpg"
+}
