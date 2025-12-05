@@ -1,4 +1,4 @@
-import { getHikesModel, patchHike, addHike } from '../model/hikes.js'
+import { getHikesModel, patchHike, addHike } from '../model/fileHikes.js'
 
 export function apiAllHikesCntr(req, res) {
     const matkadArray = getHikesModel()

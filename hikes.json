@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "nimetus": "Sügismatk Kõrvemaal",
+        "pildiUrl": "/assets/maed.png",
+        "kirjeldus": "Lähme ja oleme kolm päeva looduses",
+        "osalejad": [
+            {
+                "nimi": "Mati",
+                "email": "mati@matkaja.ee"
+            },
+            {
+                "nimi": "Kati",
+                "email": "kati@matkaja.ee"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "nimetus": "Süstamatk Hiiumaal",
+        "pildiUrl": "/assets/maed.png",
+        "kirjeldus": "Lähme ja oleme kolm päeva vee peal",
+        "osalejad": []
+    },
+    {
+        "id": 3,
+        "nimetus": "Mägimatk Otepääl",
+        "pildiUrl": "/assets/maed.png",
+        "kirjeldus": "Lähme ja oleme kolm päeva mägedes",
+        "osalejad": []
+    },
+    {
+        "id": 4,
+        "nimetus": "Suusamatk Otepääl",
+        "kirjeldus": "Kaunis suusamatk Otepää ümbruses.",
+        "pildiUrl": "https://example.com/suusamatk-otepaa.jpg",
+        "osalejad": []
+    }
+]
