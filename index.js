@@ -1,6 +1,8 @@
 import express from 'express'
 import {indexCntrl, contactCntrl, hikeCntrl, registerCntrl} from './controllers/viewCntrl.js'
 import { apiAllHikesCntr, apiAddHikeCntrl, apiDeleteHikeCntrl, apiPatchHikeCntrl } from './controllers/apiCntrl.js'
+import { adminCtrl } from './controllers/adminViewCntrl.js'
+import { initModel } from './model/hikes.js'
 
 const app = express()
 app.use('/', express.static('public'))
@@ -12,13 +14,18 @@ app.get('/', indexCntrl)
 app.get('/kontakt', contactCntrl)
 app.get('/matk/:id', hikeCntrl)
 app.get('/matk/:id/registreerumine', registerCntrl)
-
+app.get('/admin', adminCtrl)
 
 app.get('/api/matk', apiAllHikesCntr)
 app.post('/api/matk', apiAddHikeCntrl)
 app.delete('/api/matk/:id', apiDeleteHikeCntrl)
 app.patch('/api/matk/:id', apiPatchHikeCntrl)
 
+
+
 const port = process.env.PORT || 8085
 
-app.listen(port, () => console.log("Rakendus töötab ja kuulab pordil " + port))
+app.listen(port, () => {
+    console.log("Rakendus töötab ja kuulab pordil " + port)
+    initModel()
+})
