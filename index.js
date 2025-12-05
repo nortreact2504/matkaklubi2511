@@ -1,6 +1,6 @@
 import express from 'express'
 import {indexCntrl, contactCntrl, hikeCntrl, registerCntrl} from './controllers/viewCntrl.js'
-import { apiAllHikesCntr, apiAddHikeCntrl } from './controllers/apiCntrl.js'
+import { apiAllHikesCntr, apiAddHikeCntrl, apiDeleteHikeCntrl, apiPatchHikeCntrl } from './controllers/apiCntrl.js'
 
 const app = express()
 app.use('/', express.static('public'))
@@ -16,6 +16,8 @@ app.get('/matk/:id/registreerumine', registerCntrl)
 
 app.get('/api/matk', apiAllHikesCntr)
 app.post('/api/matk', apiAddHikeCntrl)
+app.delete('/api/matk/:id', apiDeleteHikeCntrl)
+app.patch('/api/matk/:id', apiPatchHikeCntrl)
 
 const port = process.env.PORT || 8085
 

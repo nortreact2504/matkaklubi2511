@@ -19,7 +19,7 @@ const matk2 = {
 }
 
 
-const matkad = [
+let matkad = [
    matk1,
    matk2,
    {
@@ -53,4 +53,45 @@ export function addRegistration(hikeId, name, email) {
     } else {
         return false
     }
+}
+
+export function addHike({nimetus, kirjeldus, pildiUrl}) {
+    const newHike = {
+        id: matkad.length + 1,
+        nimetus,
+        kirjeldus,
+        pildiUrl: pildiUrl || '/assets/maed.png',
+        osalejad: []
+    }
+
+    matkad.push(newHike)
+    return newHike.id
+}
+
+export function deleteHike(hikeId) {
+    const hike = getHike(hikeId)
+    if (!hike) {
+        throw new Error("matka ei ole olemas")
+    }
+   
+    matkad = matkad.filter((el) => {
+        el.id !== hikeId
+    })
+
+}
+
+export function patchHike(hikeId, {nimetus="", kirjeldus=""}) {
+    const hike = getHike(hikeId)
+    if (!hike) {
+        throw new Error("matka ei ole olemas")
+    }
+
+    if (nimetus) {
+        hike.nimetus = nimetus
+    }
+
+    if (kirjeldus) {
+        hike.kirjeldus = kirjeldus
+    }
+
 }

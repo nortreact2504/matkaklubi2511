@@ -11,3 +11,24 @@ Content-Type: application/json
     "tekst": "Kaunis suusamatk Otepää ümbruses.",
     "pilt": "https://example.com/suusamatk-otepaa.jpg"
 }
+
+### Delete one hike
+DELETE http://localhost:8085/api/matk/1
+
+### Return participants of one hike
+GET http://localhost:8085/api/matk/1/osaleja
+
+### Add on participant to a hike
+POST  http://localhost:8085/api/matk/1/osaleja
+
+
+### Patch data of one hike
+PATCH   http://localhost:8085/api/matk/1
+Content-Type: application/json
+
+{
+    "nimetus": "Kõik korraga",
+    "kirjeldus": "asdfasdfasdfasdf",
+    "id": 34534534534
+}
+
