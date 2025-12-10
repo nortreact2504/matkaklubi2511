@@ -1,6 +1,12 @@
 import express from 'express'
 import {indexCntrl, contactCntrl, hikeCntrl, registerCntrl} from './controllers/viewCntrl.js'
-import { apiAllHikesCntr, apiAddHikeCntrl, apiDeleteHikeCntrl, apiPatchHikeCntrl } from './controllers/apiCntrl.js'
+import { 
+    apiAllHikesCntr, 
+    apiAddHikeCntrl, 
+    apiDeleteHikeCntrl, 
+    apiPatchHikeCntrl,
+    apiOneHikeDetailsCntrl
+} from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
 import { initModel } from './model/hikes.js'
 
@@ -18,6 +24,7 @@ app.get('/admin', adminCtrl)
 
 app.get('/api/matk', apiAllHikesCntr)
 app.post('/api/matk', apiAddHikeCntrl)
+app.get('/api/matk/:id', apiOneHikeDetailsCntrl)
 app.delete('/api/matk/:id', apiDeleteHikeCntrl)
 app.patch('/api/matk/:id', apiPatchHikeCntrl)
 

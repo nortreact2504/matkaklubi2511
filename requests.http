@@ -32,3 +32,6 @@ Content-Type: application/json
     "id": 34534534534
 }
 
+### Get details of one hike
+GET http://localhost:8085/api/matk/1
+

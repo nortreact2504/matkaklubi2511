@@ -1,4 +1,4 @@
-import { getHikesModel, patchHike, addHike } from '../model/hikes.js'
+import { getHikesModel, patchHike, addHike, getHike } from '../model/hikes.js'
 
 export function apiAllHikesCntr(req, res) {
     const matkadArray = getHikesModel()
@@ -21,6 +21,28 @@ export function apiAddHikeCntrl(req, res) {
    }
    addHike(newHike)
    res.status(201). end()
+}
+
+export function apiOneHikeDetailsCntrl(req, res) {
+    const hikeId = req.params.id
+    if (!hikeId) {
+        res.status(403).json({
+            error: 'id not given in request'
+        })
+        
+        return
+    }
+
+    //TODO: loe ühe matka andmed id alusel
+    try {
+        const hike = getHike(hikeId)
+        res.json(hike)
+    } catch (error) {
+        res.status(404).json({
+            error: error.message
+        })
+    }
+    
 }
 
 
