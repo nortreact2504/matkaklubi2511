@@ -1,4 +1,4 @@
-import {getHikesModel, getHike, addRegistration} from '../model/hikes.js'
+import {getHikesModel, getHike, addRegistration} from '../model/hikesMongoDb.js'
 
 export function indexCntrl(req, res) {
     const matkadArray = getHikesModel()
@@ -12,6 +12,7 @@ export function contactCntrl(req, res) {
 export function hikeCntrl(req, res) {
     const hikeId = req.params.id
     const hike = getHike(hikeId)
+
     console.log(hike)
     //res.send('Näitame matka ' + hike.nimetus)
     res.render('hike', {matk: hike, error: '', success: ''})

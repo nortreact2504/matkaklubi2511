@@ -33,6 +33,7 @@ function renderRightPane(hike) {
     const rightPaneEl = document.getElementById('right-pane')
     console.log(rightPaneEl)
     const rightPaneHTML = getRightPaneHtml({
+        id: hike.id,
         nimi: hike.nimetus,
         kirjeldus: hike.kirjeldus,
         osalejad: hike.osalejad
@@ -52,12 +53,12 @@ function renderErrorRightPane() {
     `
 }
 
-function getRightPaneHtml({nimi, kirjeldus, osalejad}) {
+function getRightPaneHtml({id, nimi, kirjeldus, osalejad}) {
     let osalejateHtml = ""
     osalejad.forEach((osaleja) => {
         osalejateHtml += `
         <div class="row">
-            <div class=col-6>${osaleja.nimi}</div>
+            <div class=col-4>${osaleja.nimi}</div>
             <div class=col-6>${osaleja.email}</div>
         </div>
         `
@@ -69,11 +70,39 @@ function getRightPaneHtml({nimi, kirjeldus, osalejad}) {
         </div>
         <h3>Osalejad</h3>
         <div class="row">
-            <div class=col-6>Nimi</div>
+            <div class=col-4>Nimi</div>
             <div class=col-6>Email</div>
         </div>
         ${osalejateHtml}   
+        <div class="row">
+            <div class="col-4">
+                <input type="text" id="osalejaNimi">
+            </div>
+            <div class="col-4">
+                 <input type="email" id="osalejaEmail">
+            </div>
+            <div class="col-4">
+                 <button class="btn btn-link" onclick="addParticipant(${id})">Lisa</button>
+            </div>
+        </div>
     `
+}
+
+async function addParticipant(hikeId) {
+    console.log(hikeId, document.getElementById('osalejaNimi').value)
+    const osaljeaNimi = document.getElementById('osalejaNimi').value
+    const osalejaEmail = document.getElementById('osalejaEmail').value
+
+    if (!osaljeaNimi || !osalejaEmail) {
+        return
+    }
+
+    await postHikeParticipant({
+        id: hikeId,
+        name: osaljeaNimi,
+        email: osalejaEmail
+    })
+    clickOnLeftPaneRow(hikeId)
 }
 
 
@@ -105,6 +134,27 @@ async function fetchHikeDetails(id) {
     }
     const hike = await response.json()
     return hike
+}
+
+async function postHikeParticipant({id, name, email}) {
+    const participant = {
+        nimi: name,
+        email: email
+    }
+    
+
+    const response = await fetch(`${allHikesUrl}/${id}/osaleja`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", 
+        },
+        body: JSON.stringify(participant)
+    })
+
+    if (!response.ok) {
+        showError('Osaleja lisamine ebaõnnestus, proovi uuesti')
+        return null;
+    }
 }
 
 function showError(errorMessage) {

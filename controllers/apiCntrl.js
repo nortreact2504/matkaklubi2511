@@ -1,4 +1,4 @@
-import { getHikesModel, patchHike, addHike, getHike } from '../model/hikes.js'
+import { getHikesModel, patchHike, addHike, getHike, addRegistration } from '../model/hikesMongoDb.js'
 
 export function apiAllHikesCntr(req, res) {
     const matkadArray = getHikesModel()
@@ -65,4 +65,10 @@ export function apiPatchHikeCntrl(req, res) {
     }
 
 
+}
+
+export function apiPostParticipantCntrl(req, res) {
+    console.log(req.body)
+    addRegistration(req.params.id, req.body.nimi, req.body.email)
+    res.status(201).end()
 }

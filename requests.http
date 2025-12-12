@@ -19,7 +19,13 @@ DELETE http://localhost:8085/api/matk/1
 GET http://localhost:8085/api/matk/1/osaleja
 
 ### Add on participant to a hike
-POST  http://localhost:8085/api/matk/1/osaleja
+POST  http://localhost:8085/api/matk/2/osaleja
+Content-Type: application/json
+
+{
+    "nimi": "Osaleja Nimi",
+    "email": "osaleja@email.ee"
+}
 
 
 ### Patch data of one hike
@@ -33,5 +39,5 @@ Content-Type: application/json
 }
 
 ### Get details of one hike
-GET http://localhost:8085/api/matk/1
+GET http://localhost:8085/api/matk/2
 
