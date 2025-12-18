@@ -1,7 +1,7 @@
 import {getHikesModel, getHike, addRegistration} from '../model/hikesMongoDb.js'
 
-export function indexCntrl(req, res) {
-    const matkadArray = getHikesModel()
+export async function indexCntrl(req, res) {
+    const matkadArray = await getHikesModel()
     res.render('index', {matkad: matkadArray})
 }
 
@@ -9,16 +9,16 @@ export function contactCntrl(req, res) {
     res.render('kontakt')
 }
 
-export function hikeCntrl(req, res) {
+export async function hikeCntrl(req, res) {
     const hikeId = req.params.id
-    const hike = getHike(hikeId)
+    const hike = await getHike(hikeId)
 
     console.log(hike)
     //res.send('Näitame matka ' + hike.nimetus)
     res.render('hike', {matk: hike, error: '', success: ''})
 }
 
-export function registerCntrl(req, res) {
+export async function registerCntrl(req, res) {
     const hikeId = req.params.id
     if (!req.params.id) {
         res.send('Matka ID puudub')
@@ -29,8 +29,8 @@ export function registerCntrl(req, res) {
     const name = req.query.nimi
     const email = req.query.email
     //TODO lisada andmete valideerimine
-    const lisatud = addRegistration(hikeId, name, email)
-    const hike = getHike(hikeId)
+    const lisatud = await addRegistration(hikeId, name, email)
+    const hike = await getHike(hikeId)
 
     if (!lisatud) {
         res.render('hike', {matk: hike, error: 'Registreerumine ebaõnnestus', success: ''})

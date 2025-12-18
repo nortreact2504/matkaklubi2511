@@ -1,9 +1,9 @@
 ### Get all hikes
-GET http://localhost:8085/api/matk
+GET http://localhost:8087/api/matk
 
 
 ### Insert one hike
-POST http://localhost:8085/api/matk
+POST http://localhost:8087/api/matk
 Content-Type: application/json
 
 {
@@ -39,5 +39,5 @@ Content-Type: application/json
 }
 
 ### Get details of one hike
-GET http://localhost:8085/api/matk/2
+GET http://localhost:8085/api/matk/6942e276934a050309afcbdc
 

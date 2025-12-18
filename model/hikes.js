@@ -19,7 +19,7 @@ export function initModel() {
     loadAllHikes()
 }
 
-export function getHikesModel() {
+export async function getHikesModel() {
     loadAllHikes()
     return matkad
 }
@@ -46,7 +46,7 @@ export function addRegistration(hikeId, name, email) {
     }
 }
 
-export function addHike({nimetus, kirjeldus, pildiUrl}) {
+export async function addHike({nimetus, kirjeldus, pildiUrl}) {
     const newHike = {
         id: matkad.length + 1,
         nimetus,
