@@ -1,5 +1,55 @@
 const allHikesUrl = '/api/matk'
 
+/**
+ * Logout function
+ * Calls logout API and redirects to home page
+ */
+async function logout() {
+	try {
+		const response = await fetch('/api/auth/logout', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		
+		const data = await response.json();
+		
+		if (response.ok && data.success) {
+			// Redirect to home page
+			window.location.href = data.redirectUrl || '/';
+		} else {
+			alert('Väljalogimine ebaõnnestus');
+		}
+	} catch (error) {
+		console.error('Logout error:', error);
+		alert('Väljalogimine ebaõnnestus');
+	}
+}
+
+/**
+ * Wrapper for fetch to handle authentication errors
+ * Automatically redirects to login if session expired (401)
+ */
+async function authenticatedFetch(url, options = {}) {
+	try {
+		const response = await fetch(url, options);
+		
+		// Check for authentication error
+		if (response.status === 401) {
+			// Session expired, redirect to login
+			console.log('Session expired, redirecting to login...');
+			window.location.href = '/login';
+			return null;
+		}
+		
+		return response;
+	} catch (error) {
+		console.error('Fetch error:', error);
+		throw error;
+	}
+}
+
 async function clickOnLeftPaneRow(id) {
     console.log('Klikiti real ' + id)
     if (!id) {
@@ -120,14 +170,18 @@ function renderPage(hikes, hikeIdInRightPane) {
 }
 
 async function fetchAllHikes() {
-    const response = await fetch(allHikesUrl)
+    const response = await authenticatedFetch(allHikesUrl)
+    if (!response) return []; // Session expired
+    
     const hikes = await response.json()
     console.log('Andmed laetud', hikes)
     return hikes
 }
 
 async function fetchHikeDetails(id) {
-    const response = await fetch(allHikesUrl + '/' + id)
+    const response = await authenticatedFetch(allHikesUrl + '/' + id)
+    if (!response) return null; // Session expired
+    
     if (!response.ok) {
         showError('Andmete lugemisel olli viga, proovi uuesti')
         return null;
@@ -142,8 +196,7 @@ async function postHikeParticipant({id, name, email}) {
         email: email
     }
     
-
-    const response = await fetch(`${allHikesUrl}/${id}/osaleja`, {
+    const response = await authenticatedFetch(`${allHikesUrl}/${id}/osaleja`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json", 
@@ -151,6 +204,8 @@ async function postHikeParticipant({id, name, email}) {
         body: JSON.stringify(participant)
     })
 
+    if (!response) return null; // Session expired
+    
     if (!response.ok) {
         showError('Osaleja lisamine ebaõnnestus, proovi uuesti')
         return null;
