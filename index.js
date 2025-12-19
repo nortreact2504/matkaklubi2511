@@ -1,4 +1,5 @@
 import express from 'express'
+import session from 'express-session'
 import {indexCntrl, contactCntrl, hikeCntrl, registerCntrl} from './controllers/viewCntrl.js'
 import { 
     apiAllHikesCntr, 
@@ -10,26 +11,51 @@ import {
     apiCreateUserCntrl
 } from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
+import { loginCtrl, loginPostCtrl, logoutCtrl } from './controllers/authCntrl.js'
+import { requireAuth } from './middleware/auth.js'
 import { initModel } from './model/hikes.js'
 import { closeDatabaseConnection } from './model/hikesMongoDb.js'
 
 const app = express()
 app.use('/', express.static('public'))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.set("views","./views");
 app.set("view engine", "ejs");
+
+// Configure express-session middleware
+app.use(session({
+	secret: process.env.SESSION_SECRET || 'default-secret-change-in-production',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === 'production',
+		maxAge: 24 * 60 * 60 * 1000 // 24 hours
+	}
+}))
 
 app.get('/', indexCntrl)
 app.get('/kontakt', contactCntrl)
 app.get('/matk/:id', hikeCntrl)
 app.get('/matk/:id/registreerumine', registerCntrl)
-app.get('/admin', adminCtrl)
 
+// Authentication routes
+app.get('/login', loginCtrl)
+app.post('/login', loginPostCtrl)
+app.post('/logout', logoutCtrl)
+
+// Protected admin route
+app.get('/admin', requireAuth, adminCtrl)
+
+// Public API routes
 app.get('/api/matk', apiAllHikesCntr)
-app.post('/api/matk', apiAddHikeCntrl)
 app.get('/api/matk/:id', apiOneHikeDetailsCntrl)
-app.delete('/api/matk/:id', apiDeleteHikeCntrl)
-app.patch('/api/matk/:id', apiPatchHikeCntrl)
+
+// Protected admin API routes
+app.post('/api/matk', requireAuth, apiAddHikeCntrl)
+app.delete('/api/matk/:id', requireAuth, apiDeleteHikeCntrl)
+app.patch('/api/matk/:id', requireAuth, apiPatchHikeCntrl)
 app.post('/api/matk/:id/osaleja', apiPostParticipantCntrl)
 app.post('/api/user', apiCreateUserCntrl)
 
