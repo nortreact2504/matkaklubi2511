@@ -65,7 +65,7 @@ export async function apiPatchHikeCntrl(req, res) {
         await patchHike(hikeId, patch)
         res.status(200).end()
     } catch (error) {
-        res.status(403).json({error: error.message})
+        res.status(403).json({error: error.message, stack: error.stack})
     }
 
 

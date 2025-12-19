@@ -10,6 +10,7 @@ import {
 } from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
 import { initModel } from './model/hikes.js'
+import { closeDatabaseConnection } from './model/hikesMongoDb.js'
 
 const app = express()
 app.use('/', express.static('public'))
@@ -33,7 +34,25 @@ app.post('/api/matk/:id/osaleja', apiPostParticipantCntrl)
 
 const port = process.env.PORT || 8085
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log("Rakendus töötab ja kuulab pordil " + port)
     initModel()
 })
+
+// Graceful shutdown handler
+async function gracefulShutdown(signal) {
+    console.log(`${signal} received. Closing MongoDB connection...`)
+    try {
+        await closeDatabaseConnection()
+        server.close(() => {
+            console.log('Server closed')
+            process.exit(0)
+        })
+    } catch (error) {
+        console.error('Error during shutdown:', error)
+        process.exit(1)
+    }
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
+process.on('SIGINT', () => gracefulShutdown('SIGINT'))

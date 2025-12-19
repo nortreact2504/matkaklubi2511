@@ -1,19 +1,20 @@
 ### Get all hikes
-GET http://localhost:8087/api/matk
+GET http://localhost:8085/api/matk
 
 
 ### Insert one hike
-POST http://localhost:8087/api/matk
+POST http://localhost:8085/api/matk
 Content-Type: application/json
 
 {
     "nimi": "Suusamatk Jõulumäel",
-    "tekst": "Kaunis suusamatk Otepää ümbruses.",
+    "tekst": "Kaunis suusamatk Võrumaa ümbruses.",
     "pilt": "https://example.com/suusamatk-otepaa.jpg"
 }
 
+
 ### Delete one hike
-DELETE http://localhost:8085/api/matk/1
+DELETE http://localhost:8085/api/matk/6942e217e614d319beaf99c2
 
 ### Return participants of one hike
 GET http://localhost:8085/api/matk/1/osaleja
@@ -29,13 +30,12 @@ Content-Type: application/json
 
 
 ### Patch data of one hike
-PATCH   http://localhost:8085/api/matk/1
+PATCH   http://localhost:8085/api/matk/6942e276934a050309afcbdc
 Content-Type: application/json
 
 {
     "nimetus": "Kõik korraga",
-    "kirjeldus": "asdfasdfasdfasdf",
-    "id": 34534534534
+    "kirjeldus": "muudetud kirjeldus"
 }
 
 ### Get details of one hike
