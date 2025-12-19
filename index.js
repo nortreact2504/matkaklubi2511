@@ -11,7 +11,7 @@ import {
     apiCreateUserCntrl
 } from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
-import { loginCtrl, loginPostCtrl, logoutCtrl } from './controllers/authCntrl.js'
+import { loginCtrl, loginPostCtrl, logoutCtrl, apiLoginCtrl } from './controllers/authCntrl.js'
 import { requireAuth } from './middleware/auth.js'
 import { initModel } from './model/hikes.js'
 import { closeDatabaseConnection } from './model/hikesMongoDb.js'
@@ -44,6 +44,9 @@ app.get('/matk/:id/registreerumine', registerCntrl)
 app.get('/login', loginCtrl)
 app.post('/login', loginPostCtrl)
 app.post('/logout', logoutCtrl)
+
+// API authentication route (public, returns JWT token)
+app.post('/api/login', apiLoginCtrl)
 
 // Protected admin route
 app.get('/admin', requireAuth, adminCtrl)
