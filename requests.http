@@ -41,3 +41,12 @@ Content-Type: application/json
 ### Get details of one hike
 GET http://localhost:8085/api/matk/6942e276934a050309afcbdc
 
+### Create a new user
+POST http://localhost:8085/api/user
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+

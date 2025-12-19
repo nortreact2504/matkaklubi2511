@@ -1,4 +1,5 @@
 import { getHikesModel, patchHike, addHike, getHike, addRegistration } from '../model/hikesMongoDb.js'
+import { createUser } from '../model/usersMongoDb.js'
 
 export async function apiAllHikesCntr(req, res) {
     const matkadArray = await getHikesModel()
@@ -75,4 +76,22 @@ export async function apiPostParticipantCntrl(req, res) {
     console.log(req.body)
     await addRegistration(req.params.id, req.body.nimi, req.body.email)
     res.status(201).end()
+}
+
+export async function apiCreateUserCntrl(req, res) {
+    const { username, password } = req.body
+
+    if (!username || !password) {
+        res.status(400).json({ error: 'username and password are required' })
+        return
+    }
+
+    try {
+        await createUser(username, password)
+        res.status(201).json({ username })
+    } catch (error) {
+        const message = error?.message || 'User creation failed'
+        const isConflict = message.toLowerCase().includes('exists')
+        res.status(isConflict ? 409 : 500).json({ error: message })
+    }
 }

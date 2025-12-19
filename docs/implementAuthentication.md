@@ -55,26 +55,20 @@ Create `model/usersMongoDb.js` following the same pattern as `hikesMongoDb.js`:
 - `verifyPassword(user, password)` - verify password using bcrypt
 - Use MongoDB collection `users` in the same `matkad` database
 
-### 3. Add Password Change API Endpoint
+### 3. Add Endpoint for Adding User
 
 Add to `controllers/apiCntrl.js`:
 
-- `apiChangePasswordCntrl(req, res)` - handle PATCH `/api/user/:username/password`
-  - Accept current password and new password in request body
-  - Verify current password matches
-  - Hash new password using bcrypt
-  - Update user password in MongoDB
-  - Return 200 on success, 401 if current password incorrect, 404 if user not found
-- Protect endpoint with `requireAuth` middleware
-- Optionally: allow users to change their own password or require admin privileges
+- `apiCreateUserCntrl(req, res)` - handle POST `/api/user`
+  - Accept username and password in request body
+  - Hash password using bcrypt
+  - Create user in MongoDB via `createUser()` from user model
+  - Return 201 on success, 400/409 on error (duplicate username, validation errors)
+- This endpoint is temporarily public (no authentication required)
 
 Add route to `index.js`:
 
-- `PATCH /api/user/:username/password` - protected route for changing user passwords
-
-Update `model/usersMongoDb.js`:
-
-- `updateUserPassword(username, hashedPassword)` - update password for existing user
+- `POST /api/user` - public route for creating new admin users (temporarily without authentication)
 
 ### 4. Create Authentication Middleware
 

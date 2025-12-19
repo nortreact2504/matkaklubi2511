@@ -6,7 +6,8 @@ import {
     apiDeleteHikeCntrl, 
     apiPatchHikeCntrl,
     apiOneHikeDetailsCntrl,
-    apiPostParticipantCntrl
+    apiPostParticipantCntrl,
+    apiCreateUserCntrl
 } from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
 import { initModel } from './model/hikes.js'
@@ -30,6 +31,7 @@ app.get('/api/matk/:id', apiOneHikeDetailsCntrl)
 app.delete('/api/matk/:id', apiDeleteHikeCntrl)
 app.patch('/api/matk/:id', apiPatchHikeCntrl)
 app.post('/api/matk/:id/osaleja', apiPostParticipantCntrl)
+app.post('/api/user', apiCreateUserCntrl)
 
 
 const port = process.env.PORT || 8085
