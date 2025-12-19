@@ -46,3 +46,5 @@ Additionally, all assets and static resources for the frontend are located in th
 When creating new code, follow the previously described structure unless explicitly instructed otherwise.
 
 When creating frontend code, follow the existing coding style and patterns unless explicitly instructed otherwise.
+
+Add detailed descriptions to created functions

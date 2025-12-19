@@ -1,4 +1,5 @@
 import express from 'express'
+import session from 'express-session'
 import {indexCntrl, contactCntrl, hikeCntrl, registerCntrl} from './controllers/viewCntrl.js'
 import { 
     apiAllHikesCntr, 
@@ -9,27 +10,53 @@ import {
     apiPostParticipantCntrl
 } from './controllers/apiCntrl.js'
 import { adminCtrl } from './controllers/adminViewCntrl.js'
+import { loginPageCtrl, loginCtrl, logoutCtrl } from './controllers/authCntrl.js'
+import { requireAuth } from './middleware/auth.js'
 import { initModel } from './model/hikes.js'
 import { closeDatabaseConnection } from './model/hikesMongoDb.js'
 
 const app = express()
 app.use('/', express.static('public'))
 app.use(express.json())
+
+// Configure session middleware - MUST be before routes
+app.use(session({
+	secret: process.env.SESSION_SECRET || 'default-secret-change-in-production',
+	resave: false,
+	saveUninitialized: false,
+	cookie: { 
+		secure: process.env.NODE_ENV === 'production',
+		httpOnly: true,
+		maxAge: 24 * 60 * 60 * 1000 // 24 hours
+	}
+}))
+
 app.set("views","./views");
 app.set("view engine", "ejs");
 
+// Public routes (no authentication required)
 app.get('/', indexCntrl)
 app.get('/kontakt', contactCntrl)
 app.get('/matk/:id', hikeCntrl)
 app.get('/matk/:id/registreerumine', registerCntrl)
-app.get('/admin', adminCtrl)
 
+// Authentication routes
+app.get('/login', loginPageCtrl)
+app.post('/api/auth/login', loginCtrl)
+app.post('/api/auth/logout', logoutCtrl)
+
+// Protected admin routes
+app.get('/admin', requireAuth, adminCtrl)
+
+// Public API routes
 app.get('/api/matk', apiAllHikesCntr)
-app.post('/api/matk', apiAddHikeCntrl)
 app.get('/api/matk/:id', apiOneHikeDetailsCntrl)
-app.delete('/api/matk/:id', apiDeleteHikeCntrl)
-app.patch('/api/matk/:id', apiPatchHikeCntrl)
 app.post('/api/matk/:id/osaleja', apiPostParticipantCntrl)
+
+// Protected API routes (admin only)
+app.post('/api/matk', requireAuth, apiAddHikeCntrl)
+app.delete('/api/matk/:id', requireAuth, apiDeleteHikeCntrl)
+app.patch('/api/matk/:id', requireAuth, apiPatchHikeCntrl)
 
 
 const port = process.env.PORT || 8085
