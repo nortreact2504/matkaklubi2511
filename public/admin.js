@@ -82,7 +82,7 @@ function getRightPaneHtml({id, nimi, kirjeldus, osalejad}) {
                  <input type="email" id="osalejaEmail">
             </div>
             <div class="col-4">
-                 <button class="btn btn-link" onclick="addParticipant(${id})">Lisa</button>
+                 <button class="btn btn-link" onclick="addParticipant('${id}')">Lisa</button>
             </div>
         </div>
     `
