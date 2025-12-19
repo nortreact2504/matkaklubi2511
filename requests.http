@@ -17,15 +17,15 @@ Content-Type: application/json
 DELETE http://localhost:8085/api/matk/6942e217e614d319beaf99c2
 
 ### Return participants of one hike
-GET http://localhost:8085/api/matk/1/osaleja
+GET http://localhost:8085/api/matk/6942e276934a050309afcbdc/osaleja
 
 ### Add on participant to a hike
-POST  http://localhost:8085/api/matk/2/osaleja
+POST  http://localhost:8085/api/matk/6942e276934a050309afcbdc/osaleja
 Content-Type: application/json
 
 {
-    "nimi": "Osaleja Nimi",
-    "email": "osaleja@email.ee"
+    "nimi": "Osaleja Nimi 2",
+    "email": "osaleja2@email.ee"
 }
 
 
