@@ -5,10 +5,10 @@ GET http://localhost:8085/api/matk
 ### Insert one hike
 POST http://localhost:8085/api/matk
 Content-Type: application/json
-Cookie: connect.sid=s%3A1vbkce2tg3Fs0FOcgJbG_eN1uPCtNIQx.%2BnbpmkYAuWtbFfnWheVFFrU2CBc1xgraKKfnCbT7rJ8
+Cookie: connect.sid=s%3ApoZe5siS2Po2ILg5BswrGUxhNNry8y3y.ltZyaFW9fKCztN0VDsHbWd0JbtrjJfB20JW8Ej07lLc
 
 {
-    "nimi": "Veel üks matk",
+    "nimi": "Järgmine uus matk",
     "tekst": "Kaunis suusamatk Võrumaa ümbruses.",
     "pilt": "https://example.com/suusamatk-otepaa.jpg"
 }
